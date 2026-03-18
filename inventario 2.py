@@ -1,7 +1,21 @@
+inventario = []
+inicio = 1
+
+def agregar_producto():
+    cantidad_a_registrar=int(input("Ingrese la cantidad de productos que va a registrar: "))
+    for producto in range(cantidad_a_registrar):
+        nombre_producto = input(f"\n Ingrese nombre del producto {producto+1}: ")
+        precio_producto = float(input("Ingrese el precio: "))
+        cantidad_producto = int(input("Ingrese la cantidad: "))
+        nuevo_producto = {
+            "Producto": nombre_producto, 
+            "Precio": precio_producto,
+            "Cantidad": cantidad_producto                              
+            }
+        inventario.append(nuevo_producto)
 
 
-inicio=1
-while inicio !=0:
+while inicio != 0:
     print("Welcome To My Inventory")
     print("Por favor marca una de las siguientes opciones que desees")
     print("1.Agregar productos")
@@ -12,17 +26,18 @@ while inicio !=0:
     opcion=input("Ingrese una opcion por favor: ")
 
     if opcion == "1":
-        print("Se agregara un producto")
-
+        agregar_producto()
     elif opcion == "2":
-        print("Se mostrará inventario")
+        for idx, mostrar in enumerate(inventario):
+        
+            print(f"{idx+1}.Producto: {mostrar["Producto"]}| Precio: {mostrar["Precio"]}| Cantidad: {mostrar["Cantidad"]} ")
 
     elif opcion == "3":
         print("Se harán calculos")
 
-    elif opcion =="4":
+    elif opcion == "4":
         print("Saliendo del programa")
-        break
+        inicio = 0
 
     else:
         print("Marca las opciones indicadas")
