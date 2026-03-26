@@ -1,90 +1,101 @@
-inventario = []
-inicio = 1
+#The program begins by creating a list where the products will be added.
+inventory = []
+start = 1
 
-def agregar_producto(nombre,precio,cantidad,lista):
+#This is the function where i creatw a dictionary inside a list(in inventory)
+def add_product(name,price,quantity,list):
      
-    nuevo_producto = {
-        "Producto": nombre, 
-        "Precio": precio,
-        "Cantidad": cantidad                              
+    new_product = {
+        "Product": name, 
+        "price": price,
+        "quantity": quantity                              
         }
-    lista.append(nuevo_producto)
+    list.append(new_product)
 
-def mostrar_producto (inventario):
+#This function only show the registered products. Example: 1.Product: das| price: 13.0| quantity: 2
+def Show_product (inventory):
    
-    for idx, mostrar in enumerate(inventario):    
-        print(f"{idx+1}.Producto: {mostrar["Producto"]}| Precio: {mostrar["Precio"]}| Cantidad: {mostrar["Cantidad"]} ")
+    for idx, Show in enumerate(inventory):    
+        print(f"{idx+1}.Product: {Show["Product"]}| price: {Show["price"]}| quantity: {Show["quantity"]} ")
 
-def calcular_tota_precios(inventario):
+# Calculate the total monetary value by multiplying the price by the quantity of each item.
+def calcular_tota_prices(inventory):
 
-    total_precios = sum(valor['Precio']*valor['Cantidad']for valor in inventario)
+    total_prices = sum(valor['price']*valor['quantity']for valor in inventory)
     
-    return total_precios    
+    return total_prices    
 
-def cantidad_productos(inventario):
-    cantidad_total = sum(valor['Cantidad']for valor in inventario)
-    return cantidad_total
+# Add only the physical units available across the entire inventory
+def quantity_products(inventory):
+    quantity_total = sum(valor['quantity']for valor in inventory)
+    return quantity_total
 
-
-while inicio != 0:
+# El ciclo 'while' permite que el programa no se cierre hasta que el usuario elija la opción "4".
+while start != 0:
     print("Welcome To My Inventory")
-    print("\nPor favor marca una de las siguientes opciones que desees")
-    print("1.Agregar productos")
-    print("2.Mostrar inventario")
-    print("3.Calcular estadisticas")
-    print("4.Salir")
+    print("\nPlease select one of the next options you want: ")
+    print("1.Add products")
+    print("2.Show inventory")
+    print("3.Calcular stadistics")
+    print("4.Out")
 
-    opcion=input("Ingrese una opcion por favor: ")
+    option=input("Enter an option please: ")
 
-    if opcion == "1":
+    if option == "1":
+  
+        # Validation to ensure that the number of records is a positive integer
         while True:
             try:
-                cantidad_a_registrar=int(input("\n Ingrese la cantidad de productos que va a registrar: "))
-                if cantidad_a_registrar>0:
+                quantity_to_register=int(input("\n Enter the quantity of products to register: "))
+                if quantity_to_register>0:
                     break
-                print("Ingrese al menos un producto")
+                print("Enter at least one product")
 
             except ValueError:
-                print( " Digite un numero " )
-            
-        for producto in range(cantidad_a_registrar):
+                print( " Enter a number " )
+        # Loop to capture the data for each individual product    
+        for product in range(quantity_to_register):
             while True:
                 
-                nombre_producto = input(f"\n Ingrese nombre del producto {producto+1}: ")    
+                name_product = input(f"\n Enter the name of the product {product+1}: ")    
                 try:
-                    precio_producto = float(input("Ingrese el precio: "))
+                    price_product = float(input("Enter the price: "))
                     
-                    cantidad_producto = int(input("Ingrese la cantidad: "))
-                    if nombre_producto=="":
-                        print("NO PUEDE SER VACIO") 
+                    quantity_product = int(input("Enter the quantity: "))
+                    # Validation: Avoid empty names and values less than 1
+                    if name_product=="":
+                        print("Can not be empty") 
                         
-                    elif precio_producto < 1 or cantidad_producto <1 :
-                        print("Ingrese al menos 1")
+                    elif price_product < 1 or quantity_product <1 :
+                        print("Enter at least 1")
                     else:
-                        break
+                        break  #If everything its ok out of the loop
                 except:
-                    print("Ingrese un valor")
-            agregar_producto(nombre_producto,precio_producto,cantidad_producto,inventario)
-
-    elif opcion == "2":
+                    print("Enter a value")
+            # Call the function to insert the validated product into the list
+            add_product(name_product,price_product,quantity_product,inventory)
+    #This is the visualization
+    elif option == "2":
         
-        mostrar_producto(inventario)
+        Show_product(inventory)
 
-    elif opcion == "3":
-        print("\n Que operacion desea realizar")
-        print("1. Total de precios")
-        print("2. Cantidad total de productos")
-        op=input("Ingrese una de las opciones: ")
+    #Here are the math operations
+    elif option == "3":
+        print("\n Which operation would you like to do?")
+        print("1. Total prices")
+        print("2. total quantity about products")
+        op=input("Enter one of the options: ")
         if op == "1":
-            print(calcular_tota_precios(inventario))
+            print(f"The total value of the prices is: {calcular_tota_prices(inventory)}")
         elif op =="2":
-            print(cantidad_productos(inventario))
+            print(f"The total quantity of products is: {quantity_products(inventory)}")
         else:
-            print("\n ingrese una de las opciones")
-    elif opcion == "4":
-        print("Saliendo del programa")
-        inicio = 0
+            print("\n Enter one of the options:")
+    #Close the program
+    elif option == "4":
+        print("Good bye")
+        start = 0
 
     else:
-        print("Marca las opciones indicadas")
+        print("Select one  of the options")
 
