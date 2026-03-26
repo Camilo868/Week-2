@@ -37,12 +37,35 @@ while inicio != 0:
     opcion=input("Ingrese una opcion por favor: ")
 
     if opcion == "1":
-        cantidad_a_registrar=int(input("\n Ingrese la cantidad de productos que va a registrar: "))
+        while True:
+            try:
+                cantidad_a_registrar=int(input("\n Ingrese la cantidad de productos que va a registrar: "))
+                if cantidad_a_registrar>0:
+                    break
+                print("Ingrese al menos un producto")
+
+            except ValueError:
+                print( " Digite un numero " )
+            
         for producto in range(cantidad_a_registrar):
-            nombre_producto = input(f"\n Ingrese nombre del producto {producto+1}: ")
-            precio_producto = float(input("Ingrese el precio: "))
-            cantidad_producto = int(input("Ingrese la cantidad: "))
+            while True:
+                
+                nombre_producto = input(f"\n Ingrese nombre del producto {producto+1}: ")    
+                try:
+                    precio_producto = float(input("Ingrese el precio: "))
+                    
+                    cantidad_producto = int(input("Ingrese la cantidad: "))
+                    if nombre_producto=="":
+                        print("NO PUEDE SER VACIO") 
+                        
+                    elif precio_producto < 1 or cantidad_producto <1 :
+                        print("Ingrese al menos 1")
+                    else:
+                        break
+                except:
+                    print("Ingrese un valor")
             agregar_producto(nombre_producto,precio_producto,cantidad_producto,inventario)
+
     elif opcion == "2":
         
         mostrar_producto(inventario)
