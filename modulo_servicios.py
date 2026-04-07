@@ -198,3 +198,41 @@ def delete_product(inventory, name):
         
     # Retorna False si el producto no se encontró en el inventario
     return False
+
+def guardar_csv(inventario, ruta, incluir_header=True):
+    """
+    Guarda el inventario actual en un archivo CSV.
+    """
+    # Validar que el inventario no esté vacío antes de guardar
+    if not inventario:
+        print("Error: El inventario está vacío. No hay datos para guardar.")
+        return
+
+    try:
+        # Abrir (o crear) el archivo en modo escritura ('w')
+        with open(ruta, 'w', encoding='utf-8') as archivo:
+            
+            # Escribir el encabezado si incluir_header es True
+            if incluir_header:
+                archivo.write("nombre,precio,cantidad\n")
+            
+            # Recorrer el inventario y escribir cada producto
+            for producto in inventario:
+                # Extraemos los datos usando las llaves de tu diccionario
+                nombre = producto["Product"]
+                precio = producto["price"]
+                cantidad = producto["quantity"]
+                
+                # Escribimos la fila separada por comas con un salto de línea
+                archivo.write(f"{nombre},{precio},{cantidad}\n")
+        
+        # Mensaje de éxito
+        print(f"Inventario guardado en: {ruta}")
+
+    # Manejo de errores específicos
+    except PermissionError:
+        print("Error de permisos: No se pudo guardar el archivo. Verifica que no esté abierto en otro programa.")
+    except Exception as e:
+        print(f"Ocurrió un error inesperado al guardar el archivo: {e}")
+
+        

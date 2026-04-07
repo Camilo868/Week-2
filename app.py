@@ -1,5 +1,6 @@
 #The program begins by creating a list where the products will be added.
 import modulo_servicios as md
+import archivo as ar
 
 inventory = []
 start = 1
@@ -9,13 +10,15 @@ start = 1
 while start != 0:
     print("\nWelcome To My Inventory")
     print("\nPlease select one of the next options you want: ")
-    print("1.Add products")
-    print("2.Show inventory")
-    print("3.Calculate stadistics")
+    print("1. Add products")
+    print("2. Show inventory")
+    print("3. Calculate stadistics")
     print("4. Search a product")
     print("5. Update a product")
-    print("6.Delete a product")
-    print("9.Out")
+    print("6. Delete a product")
+    print("7. Save CSV")
+    print("8. Charge CSV")
+    print("9. Out")
 
     option=input("Enter an option please: ").strip()
     
@@ -152,8 +155,45 @@ while start != 0:
         else:
             print("Error.")
 
-    
- 
+    elif option =="7":
+        
+        print("\nSave inventory")
+        ar.save_csv(inventory, "inventario_salida.csv")
+
+    elif option == "8":
+        route = input("Enter file name: ")
+        
+        data, errors = ar.charge_csv(route)
+
+        if data == "header_error":
+            print("Error: The file header must be 'name,price,quantity'.")
+        elif data == "error":
+            print("Error: Could not read the file.")
+        elif data is None:
+            print("Error: File not found or empty.")
+        
+        else:
+            print(f"\nSuccessfully read {len(data)} products.")
+            print(f"Skipped {errors} invalid rows.")
+            
+            if len(data) > 0:
+                confirm = input("\nOverwrite current inventory? (Y/N): ").strip().upper()
+                
+                if confirm == "Y":
+                    inventory.clear()
+                    inventory.extend(data)
+                    print("Inventory replaced.")
+                elif confirm=="N":
+                    for new_item in data:
+                        existing = md.search_product(inventory, new_item["Product"])
+                        if existing:
+                            existing["quantity"] += new_item["quantity"]
+                            existing["price"] = new_item["price"]
+                        else:
+                            inventory.append(new_item)
+                    print("Inventory merged.")
+                else:
+                    print("Select a correct option")
     #Close the program
     elif option == "9":
         print("Good bye")
